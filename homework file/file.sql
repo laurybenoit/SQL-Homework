@@ -39,3 +39,24 @@ CREATE TABLE Employees (
 
 SELECT *
 FROM Employees;
+
+CREATE TABLE Salaries (
+  emp_no INT,
+	salary INT,
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+select *
+from Salaries
+
+CREATE TABLE Titles (
+  emp_no INT,
+	Title VARCHAR(45),
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+select *
+from Titles
+
