@@ -1,0 +1,124 @@
+CREATE TABLE Department (
+  depart_no VARCHAR(30) NOT NULL,
+  depart_name VARCHAR(30)
+);
+
+SELECT *
+FROM Department;
+
+CREATE TABLE Employee (
+  emp_no INT,
+	depart_no VARCHAR(30),
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+ALTER TABLE Employee RENAME TO Dept_Emp;
+
+SELECT *
+FROM Dept_Emp;
+
+CREATE TABLE Depart_Manager (
+  Depart_no VARCHAR(30),
+	Emp_no INT,
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+SELECT *
+FROM Depart_Manager;
+
+CREATE TABLE Employees (
+  Emp_no INT,
+	Birth_date VARCHAR(30),
+	First_name VARCHAR(40),
+	Last_name VARCHAR(45),
+	Gender VARCHAR(30),
+	Hire_date VARCHAR(30)
+);
+
+SELECT *
+FROM Employees;
+
+CREATE TABLE Salaries (
+  emp_no INT,
+	salary INT,
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+select *
+from Salaries
+
+CREATE TABLE Titles (
+  emp_no INT,
+	Title VARCHAR(45),
+	from_date VARCHAR(30),
+	to_date VARCHAR(30)
+);
+
+select *
+from Titles
+
+--Data Analysis 
+
+--List the following details of each employee: employee number, last name, first name, gender, and salary.
+
+SELECT 	employees.emp_no, employees.last_name, employees.first_name, employees.gender, salaries.salary
+FROM employees
+JOIN salaries
+ON employees.emp_no = salaries.emp_no;
+
+--List employees who were hired in 1986.
+SELECT first_name, last_name, hire_date
+FROM Employees
+WHERE hire_date between '1986-01-01' and '1987-01-01'
+ 
+--List the manager of each department with the following information: department number, department name, the manager's employee number, last name, first name, and start and end employment dates.
+SELECT department.depart_no, department.depart_name, depart_manager.emp_no, employees.last_name, employees.first_name, depart_manager.from_date, depart_manager.to_date
+FROM department
+JOIN depart_manager
+ON department.depart_no = depart_manager.depart_no
+JOIN employees
+ON depart_manager.emp_no = employees.emp_no;
+
+--List the department of each employee with the following information: employee number, last name, first name, and department name.
+SELECT dept_emp.emp_no, employees.last_name, employees.first_name, department.depart_name
+FROM dept_emp
+JOIN employees
+ON dept_emp.emp_no = employees.emp_no
+JOIN department
+ON dept_emp.depart_no = department.depart_no;
+
+--List all employees whose first name is "Hercules" and last names begin with "B."
+SELECT first_name, last_name
+FROM employees
+WHERE first_name = 'Hercules'
+AND last_name LIKE 'B%';
+
+--List all employees in the Sales department, including their employee number, last name, first name, and department name.
+SELECT dept_emp.emp_no, employees.last_name, employees.first_name, department.depart_name
+FROM dept_emp
+JOIN employees
+ON dept_emp.emp_no = employees.emp_no
+JOIN department
+ON dept_emp.depart_no = department.depart_no
+WHERE department.depart_name = 'Sales';
+
+--List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
+SELECT dept_emp.depart_no = department.depart_no
+FROM dept_emp
+JOIN employees
+ON dept_emp.emp_no = employees.emp_no
+JOIN department
+ON dept_emp.depart_no = department.depart_no
+WHERE department.depart_name = 'Sales'
+OR department.depart_name = 'Development';
+
+--In descending order, list the frequency count of employee last names, i.e., how many employees share each last name.
+SELECT last_name,
+COUNT(last_name) as "frequency"
+FROM employees
+GROUP BY last_name
+ORDER BY
+COUNT(last_name)DESC;
